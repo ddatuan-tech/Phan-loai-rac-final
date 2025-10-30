@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phân Loại Rác Thải AI</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+<script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.28.0"
+  }
+}
+</script>
+</head>
+<body>
+    <div id="start-screen">
+        <div class="start-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21c.5 -4.5 2.5 -8 7 -10" /><path d="M9 18c6.218 0 10.5 -3.288 11 -12v-2h-4.014c-9 0 -11.986 4 -12.986 13" /></svg>
+        </div>
+        <h1 data-key="start_title">Phân Loại Rác Thải AI 🌿</h1>
+        <p data-key="start_subtitle">Sẵn sàng để biến thế giới thành một nơi sạch hơn?</p>
+        <button id="start-button" data-key="start_button">Bắt đầu Phân loại</button>
+    </div>
+
+    <div id="main-container" class="hidden">
+        <main id="app">
+            <div class="header-container">
+                <h1 data-key="app_title">Phân Loại Rác Thải AI 🌿</h1>
+            </div>
+            <p data-key="app_subtitle">Hướng camera của bạn vào một vật thể để phân loại rác.</p>
+            <p id="status-text">Đang khởi tạo camera và tải mô hình...</p>
+            <div id="webcam-container">
+                <div id="label-container" aria-live="polite"></div>
+            </div>
+            <div id="controls-container">
+                <button id="start-predict-button" data-key="start_predict_button">Phân loại liên tục</button>
+                <button id="stop-predict-button" class="hidden" data-key="stop_predict_button">Dừng Phân loại</button>
+                <button id="classify-once-button">Phân loại 1 lần</button>
+                <button id="switch-camera-button" class="hidden" title="Xoay Camera">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 19H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h1"/><path d="M14 11.5a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Z"/><path d="M15.5 22a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1Z"/><path d="M13 22h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h5a2 2 0 0 1 2 2v1"/><path d="M22 17.5a2.5 2.5 0 0 1-5 0V17a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v.5Z"/></svg>
+                </button>
+            </div>
+        </main>
+
+        <aside id="history-container">
+            <h2 data-key="history_title">Lịch sử phân loại</h2>
+            <div id="history-list">
+                <p class="empty-history" data-key="empty_history">Chưa có mục nào trong lịch sử.</p>
+            </div>
+        </aside>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.7.4/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8.4/dist/teachablemachine-image.min.js"></script>
+    <script type="module" src="index.tsx"></script>
+</body>
+</html>

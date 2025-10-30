@@ -1,0 +1,600 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&display=swap');
+
+:root {
+  --primary-color: #2E7D32; /* Green */
+  --secondary-color: #1565C0; /* Blue */
+  --background-color: #F5F5F5;
+  --surface-color: #FFFFFF;
+  --text-color: #333333;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --spacing: 24px;
+  --organic-color: #4CAF50;
+  --inorganic-color: #2196F3;
+  --organic-light: #a5d6a7;
+  --inorganic-light: #90caf9;
+  --danger-color: #d32f2f;
+  --danger-dark: #b71c1c;
+}
+
+body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    margin: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: var(--spacing);
+    box-sizing: border-box;
+    height: 100vh;
+    overflow: hidden; /* Prevent scrolling on the body */
+    
+    /* For centering the start screen */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* When app is active, remove flex centering */
+body.app-view {
+    display: block;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Start Screen Styles */
+#start-screen {
+    text-align: center;
+    background: var(--surface-color);
+    padding: 32px 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    max-width: 500px;
+    animation: fadeIn 0.5s ease;
+}
+
+.start-icon {
+    color: var(--primary-color);
+    margin-bottom: 16px;
+}
+
+#start-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 16px;
+}
+
+#start-button:hover {
+    background-color: #1B5E20; /* Darker Green */
+    transform: translateY(-2px);
+}
+
+/* New Main Container for 2-column layout */
+#main-container {
+    display: flex;
+    gap: var(--spacing);
+    width: 100%;
+    max-width: 1200px; /* Adjusted width */
+    margin: 0 auto; /* Center in the body.app-view */
+    align-items: stretch; /* Make columns equal height */
+    height: calc(100vh - 2 * var(--spacing)); /* Full viewport height minus padding */
+}
+
+/* Main app content (left column) */
+#app {
+    background: var(--surface-color);
+    padding: var(--spacing);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    flex: 1.5; /* Takes up more space */
+    min-width: 0; /* Prevents flex item from overflowing */
+    display: flex;
+    flex-direction: column;
+}
+
+/* History container (right column) */
+#history-container {
+    background: var(--surface-color);
+    padding: var(--spacing);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    flex: 1; /* Takes up less space */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.header-container {
+    display: flex;
+    justify-content: center; /* Center title now */
+    align-items: center;
+    width: 100%;
+    gap: 16px;
+    flex-shrink: 0;
+}
+
+h1 {
+    color: var(--primary-color);
+    margin: 0 0 8px 0;
+}
+
+p {
+    color: #666;
+    margin: 0 0 16px 0;
+    flex-shrink: 0;
+}
+
+#status-text {
+    font-weight: 500;
+    color: var(--secondary-color);
+    transition: opacity 0.5s ease;
+    min-height: 24px; /* prevent layout shift */
+}
+
+#webcam-container {
+    margin: 0 auto;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    background: #E0E0E0;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    flex-grow: 1; /* Allow container to take up vertical space */
+    min-height: 0; /* CRITICAL for flex-grow to work in a flex column */
+}
+
+.shutter-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    opacity: 0;
+    animation: shutter 0.3s ease-out;
+    pointer-events: none;
+    z-index: 10;
+}
+
+@keyframes shutter {
+    0% { opacity: 0; }
+    50% { opacity: 0.7; }
+    100% { opacity: 0; }
+}
+
+
+#webcam-container canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#label-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    transition: opacity 0.3s ease-out;
+}
+
+
+.prediction-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    padding: 24px;
+    border-radius: var(--border-radius);
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.prediction-card.animate {
+    opacity: 0;
+    transform: scale(0.9);
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.prediction-card .icon {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+}
+
+.prediction-card .details {
+    text-align: center;
+}
+
+.prediction-card .label {
+    font-size: 2.2em;
+    font-weight: 700;
+    margin: 0;
+    color: white;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.6);
+}
+
+.prediction-card .confidence {
+    font-size: 1.1em;
+    font-weight: 500;
+    margin: 4px 0 0;
+    opacity: 0.9;
+    color: white;
+}
+
+.prediction-card.organic {
+    background: radial-gradient(circle, rgba(76, 175, 80, 0.4) 0%, rgba(46, 125, 50, 0.7) 100%);
+}
+.prediction-card.organic .icon, 
+.prediction-card.organic .label {
+    color: var(--organic-light);
+}
+
+.prediction-card.inorganic {
+    background: radial-gradient(circle, rgba(33, 150, 243, 0.4) 0%, rgba(21, 101, 192, 0.7) 100%);
+}
+.prediction-card.inorganic .icon,
+.prediction-card.inorganic .label {
+    color: var(--inorganic-light);
+}
+
+
+@keyframes popIn {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.loading-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: var(--border-radius);
+    color: var(--primary-color);
+    animation: fadeIn 0.3s ease;
+}
+
+.loading-indicator p {
+    margin-top: 16px;
+    font-weight: 500;
+    font-size: 1.1em;
+    color: var(--primary-color);
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--organic-light);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Controls */
+#controls-container {
+    margin-top: var(--spacing);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0; /* Prevent controls from shrinking */
+}
+
+#start-predict-button, #stop-predict-button, #switch-camera-button, #classify-once-button {
+    padding: 12px 24px;
+    font-size: 1em;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#start-predict-button {
+    background-color: var(--primary-color);
+}
+#start-predict-button:hover {
+    background-color: #1B5E20;
+    transform: translateY(-2px);
+}
+
+#stop-predict-button {
+    background-color: var(--danger-color);
+}
+#stop-predict-button:hover {
+    background-color: var(--danger-dark);
+    transform: translateY(-2px);
+}
+
+#classify-once-button {
+    background-color: var(--secondary-color);
+}
+#classify-once-button:hover {
+    background-color: #1053A0;
+    transform: translateY(-2px);
+}
+#classify-once-button:disabled {
+    background-color: #BDBDBD;
+    cursor: not-allowed;
+    transform: none;
+    opacity: 0.7;
+}
+
+#switch-camera-button {
+    background-color: var(--secondary-color);
+    padding: 10px; /* smaller padding for icon button */
+    width: 46px;
+    height: 46px;
+    box-sizing: border-box;
+}
+#switch-camera-button:hover {
+    background-color: #1053A0;
+    transform: translateY(-2px);
+}
+#switch-camera-button svg {
+    width: 100%;
+    height: 100%;
+}
+
+
+/* History Styles */
+#history-container h2 {
+    color: var(--secondary-color);
+    margin: 0 0 16px 0;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+#history-list {
+    overflow-y: auto;
+    flex-grow: 1; /* Allows list to fill available space */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-right: 6px; /* Space for scrollbar */
+}
+
+/* Custom scrollbar for better aesthetics */
+#history-list::-webkit-scrollbar {
+  width: 6px;
+}
+#history-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+#history-list::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+#history-list::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 10px 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    animation: fadeIn 0.5s ease;
+    border-left: 5px solid #ccc;
+    gap: 12px;
+}
+
+.history-item.organic {
+    border-left-color: var(--organic-color);
+}
+.history-item.inorganic {
+    border-left-color: var(--inorganic-color);
+}
+
+
+.history-item img {
+    width: 50px;
+    height: 50px;
+    border-radius: 6px;
+    object-fit: cover;
+    border: 1px solid #eee;
+    flex-shrink: 0;
+}
+
+.history-item .icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.history-item .icon.organic { color: var(--organic-color); }
+.history-item .icon.inorganic { color: var(--inorganic-color); }
+
+.history-item .info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-width: 0;
+    gap: 6px; /* Space between main info and tip */
+}
+
+.history-item .info .info-main {
+    display: flex;
+    flex-direction: column;
+}
+
+.history-item .info .label {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.history-item .info .timestamp {
+    font-size: 12px;
+    color: #888;
+}
+
+.gemini-info {
+    font-size: 13px;
+    color: #333;
+    background-color: #f0f4f0;
+    padding: 8px 10px;
+    border-radius: 6px;
+    line-height: 1.45;
+    border-left: 3px solid var(--primary-color);
+    animation: fadeIn 0.4s ease;
+}
+
+.tip-loader {
+    font-size: 13px;
+    color: #999;
+    font-style: italic;
+    padding: 8px 0;
+}
+
+.empty-history {
+    text-align: center;
+    color: #999;
+    padding: 20px 0;
+    margin: auto; /* Nicely centers the text vertically and horizontally */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+
+/* Responsive Design: Tablet and Mobile */
+@media (max-width: 1024px) {
+    body {
+        padding: 16px; /* Less padding */
+        overflow: auto; /* Allow scrolling on smaller screens */
+        height: auto;
+    }
+
+    #main-container {
+        flex-direction: column; /* Stack camera on top of history */
+        height: auto; /* Auto height on mobile */
+        gap: 16px;
+    }
+    
+    #app {
+        padding: 16px;
+    }
+    
+    #history-container {
+        height: auto;
+        min-height: 250px; /* Give it some base height */
+        width: 100%;
+        box-sizing: border-box;
+        padding: 16px;
+    }
+    
+    #webcam-container {
+        /* Re-introduce padding-top for a consistent aspect ratio on mobile */
+        padding-top: 75%; /* 4:3 Aspect ratio */
+        flex-grow: 0; /* Disable flex-grow on mobile */
+    }
+
+    h1 {
+      font-size: 1.5em;
+    }
+
+    .prediction-card .label {
+        font-size: 1.8em;
+    }
+    .prediction-card .confidence {
+        font-size: 0.9em;
+    }
+    .prediction-card .icon {
+        width: 48px;
+        height: 48px;
+    }
+
+    #controls-container {
+        margin-top: 16px;
+    }
+
+    #start-predict-button, #stop-predict-button, #switch-camera-button, #classify-once-button {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+    
+    #switch-camera-button {
+        padding: 8px;
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Further adjustments for smaller mobile phones */
+@media (max-width: 480px) {
+    body {
+        padding: 8px;
+    }
+    
+    #main-container {
+        gap: 12px;
+    }
+    
+    #app, #history-container {
+        padding: 12px;
+        border-radius: 8px;
+    }
+
+    h1 {
+      font-size: 1.3em;
+    }
+    
+    p {
+        font-size: 0.9em;
+        margin-bottom: 12px;
+    }
+    
+    .history-item {
+        padding: 8px 10px;
+        gap: 8px;
+    }
+
+    .history-item img {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .history-item .info .label {
+      font-size: 14px;
+    }
+
+}

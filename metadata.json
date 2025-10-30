@@ -1,0 +1,7 @@
+{
+  "name": "Waste Sorter AI_Final_NEW_new",
+  "description": "An AI application to classify waste as organic, inorganic, or recyclable using the device's camera.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
